@@ -58,11 +58,11 @@ app.UseRateLimiter();
 
 app.MapControllers();
 
-app.Run();
+app.Run();```
 
 
 ### 2️⃣ Apply Rate Limiting to an Endpoint
-
+```csharp
 In **WeatherForecastController.cs**, apply the limiter to a specific action:
 
 ```csharp
@@ -92,7 +92,7 @@ public class WeatherForecastController : ControllerBase
         .ToArray();
     }
 }
-
+```
 
 ## ✅ Expected Behavior
 
