@@ -58,7 +58,8 @@ app.UseRateLimiter();
 
 app.MapControllers();
 
-app.Run();```
+app.Run();
+```
 
 
 ### 2️⃣ Apply Rate Limiting to an Endpoint
