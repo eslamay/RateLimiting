@@ -19,17 +19,6 @@ This project demonstrates a **fixed window rate limiter**, allowing a set number
 
 ---
 
-## 🛠️ Project Setup
-
-Follow these steps to set up and run the project locally.
-
-### 🔧 Prerequisites
-- .NET SDK (version **6.0 or later**)  
-- A code editor like **Visual Studio Code** or **Visual Studio**  
-- Basic knowledge of **ASP.NET Core** and **C#**
-
----
-
 ### 1️⃣ Add Rate Limiting Services
 
 In **Program.cs**, the rate limiter is configured as follows:
@@ -71,18 +60,39 @@ app.MapControllers();
 
 app.Run();
 
-[HttpGet(Name = "GetWeatherForecast")]
-[EnableRateLimiting("fixed")]
-public IEnumerable<WeatherForecast> Get()
+
+### 2️⃣ Apply Rate Limiting to an Endpoint
+
+In **WeatherForecastController.cs**, apply the limiter to a specific action:
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+
+[ApiController]
+[Route("[controller]")]
+public class WeatherForecastController : ControllerBase
 {
-    return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+    private static readonly string[] Summaries = new[]
     {
-        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-        TemperatureC = Random.Shared.Next(-20, 55),
-        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-    })
-    .ToArray();
+        "Freezing", "Bracing", "Chilly", "Cool", "Mild", 
+        "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    };
+
+    [HttpGet(Name = "GetWeatherForecast")]
+    [EnableRateLimiting("fixed")]
+    public IEnumerable<WeatherForecast> Get()
+    {
+        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        {
+            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+        })
+        .ToArray();
+    }
 }
+
 
 ## ✅ Expected Behavior
 
